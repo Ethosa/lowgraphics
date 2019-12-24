@@ -103,9 +103,8 @@ void image::line(int x1, int y1, int x2, int y2, int color)
     {
         int x = x1 + (int)(i * x_spacing);
         int y = y1 + (int)(i * y_spacing);
-        self[x][y] = calcAlpha(self[x][y], color);
+        self[x][y] = calc_alpha(self[x][y], color);
     }
-        
 }
 
 void image::rect(int x, int y, int width, int height, int color)
@@ -124,7 +123,7 @@ void image::rect(int x, int y, int width, int height, int color)
     {
         for (int j = 0; j < height; ++j)
         {
-            self[x+i][y+j] = calcAlpha(self[x+i][y+j], color);
+            self[x+i][y+j] = calc_alpha(self[x+i][y+j], color);
         }
     }
 }
@@ -203,7 +202,7 @@ void image::save(std::string file, int mode)
     }
 }
 
-int image::calcAlpha(int dst, int src)
+int image::calc_alpha(int dst, int src)
 /**
  * calcAlpha method is used to overlay one pixel on another
  *
