@@ -112,6 +112,27 @@ public:
             
     }
 
+    void rect(int x, int y, int width, int height, int color)
+    /**
+     * Draws a rectangle in the specified area.
+     *
+     * params:
+     *     x {int} -- start position
+     *     y {int} -- start position
+     *     width {int} -- rectangle width
+     *     height {int} -- rectangle height
+     *     color {int} -- fill color
+     */
+    {
+        for (int i = 0; i < width; ++i)
+        {
+            for (int j = 0; j < height; ++j)
+            {
+                self[x+i][y+j] = calcAlpha(self[x+i][y+j], color);
+            }
+        }
+    }
+
     void set_at(int x, int y, int color)
     /**
      * Sets the pixel to a specific position
@@ -134,7 +155,7 @@ public:
      *     mode {int} -- file mode (0 - bmp)
      */
     {
-        if (mode == 0)
+        if (mode == 0)  // create BMP image
         {
             std::ofstream fout;
             fout.open(file, std::ios_base::binary);
@@ -226,6 +247,7 @@ int main(int argc, char const *argv[])
     for (int i=0; i<256; ++i) img.set_at(i, 10, 0xFF77dd77);
 
     img.line(0, 0, 256, 256, 0x99dd7777);
+    img.rect(7, 7, 55, 55, 0x757777dd);
     img.save("file.bmp", 0);
     std::cout << clock() - now << " times." << std::endl;
     return 0;
