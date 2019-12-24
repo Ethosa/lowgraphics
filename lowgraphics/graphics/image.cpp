@@ -4,7 +4,9 @@
 #include <vector>
 #include <fstream>
 #include <ctime>
+#include <cmath>
 #include <algorithm>
+#include <array>
 
 
 
@@ -48,6 +50,41 @@ image::image(int width, int height)
 image::image()
 {
     image(256, 256, 0xFFFFFFFF);
+}
+
+void image::circle(int x, int y, int radius, int color)
+/**
+ * Draws a circle according to the specified parameters
+ *
+ * params:
+ *     x {int} -- circle center
+ *     y {int} -- circle center
+ *     radius {int} -- circle radius
+ *     color {int} -- fill color
+ */
+{
+    double step = 0.01;
+    std::vector<std::array<int, 2>> positions;
+    double t = 0.0;
+    double pi = 3.14;
+    double res = 2*pi;
+    double r = (double)radius;
+    double x1 = (double)x;
+    double y1 = (double)y;
+
+    while (t < res)
+    {
+        std::array<int, 2> timed = {(int)(r * std::cos(t) + x1), (int)(r * std::sin(t) + y1)};
+        positions.push_back(timed);
+        t += step;
+    }
+
+    for (int i = 0; i < positions.size(); ++i)
+    {
+        int x_end = positions[i][0] > 0 ? positions[i][0] : positions[i][0]*-2;
+        int y_end = positions[i][1] > 0 ? positions[i][1] : positions[i][1]*-2;
+        self[x_end][y_end] = calc_alpha(self[x_end][y_end], color);
+    }
 }
 
 int image::get_at(int x, int y)
@@ -230,4 +267,14 @@ int image::calc_alpha(int dst, int src)
     b = (double)dst_b*(1.0-a) + (double)src_b*a;
 
     return ((int)(a*255)<<24) | (r<<16) | (g<<8) | b;
+}
+
+int image::parse_color(int r, int g, int b, int a)
+{
+    return (a<<24) | (r<<16) | (g<<8) | b;
+}
+
+int image::parse_color(int r, int g, int b)
+{
+    return parse_color(r, g, b, 255);
 }

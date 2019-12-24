@@ -10,6 +10,7 @@ public:
     image(int width, int height, int color);
     image(int width, int height);
     image();
+    void circle(int x, int y, int radius, int color);
     int get_at(int x, int y);
     void fill(int color);
     void fill();
@@ -17,6 +18,8 @@ public:
     void rect(int x, int y, int width, int height, int color);
     void set_at(int x, int y, int color);
     void save(std::string file, int mode);
+    static int parse_color(int r, int g, int b, int a);
+    static int parse_color(int r, int g, int b);
 private:
-    int calcAlpha(int dst, int src);
+    int calc_alpha(int dst, int src);
 };
