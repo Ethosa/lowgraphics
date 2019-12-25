@@ -1,5 +1,5 @@
 // author: Ethosa
-#include "image.h"
+#include "Image.h"
 #include <iostream>
 #include <vector>
 #include <fstream>
@@ -22,7 +22,6 @@ Image::Image(int width, int height, int color)
 {
     w = width;
     h = height;
-    clr = color;
     // fill image
     for (int x = 0; x < width; ++x)
     {
@@ -249,12 +248,11 @@ int Image::calc_alpha(int dst, int src)
  *     src {int} -- pixel overlay
  */
 {
-    int dst_r, dst_g, dst_b, dst_a;
+    int dst_r, dst_g, dst_b;
     int src_r, src_g, src_b, src_a;
     dst_b = dst & 255;
     dst_g = (dst >> 8) & 255;
     dst_r = (dst >> 16) & 255;
-    dst_a = (dst >> 24) & 255;
 
     src_b = src & 255;
     src_g = (src >> 8) & 255;

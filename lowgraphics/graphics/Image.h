@@ -5,7 +5,7 @@
 class Image
 {
 public:
-    int w, h, clr;
+    int w, h;
     std::vector<std::vector<int>> self;
 
     Image(int width, int height, int color);
@@ -20,5 +20,5 @@ public:
     void set_at(int x, int y, int color);
     void save(std::string file, int mode);
 private:
-    int calc_alpha(int dst, int src);
+    static int calc_alpha(int dst, int src);
 };
