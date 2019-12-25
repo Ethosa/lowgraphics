@@ -1,1 +1,1 @@
-g++ test.cpp lowgraphics/graphics/image.cpp -o test && test
+g++ test.cpp lowgraphics/graphics/Image.cpp lowgraphics/graphics/Color.cpp -o test && test
