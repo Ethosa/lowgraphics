@@ -8,6 +8,6 @@ Image Tools
 ![example output](https://github.com/Ethosa/lowgraphics/blob/master/file.bmp)
 
 ## Usage via git
-1.   `git clone https://github.com/Ethosa/lowgraphics.git`
-2.   `cd lowgraphics`
-3.   `run.bat`
+1.  `git clone https://github.com/Ethosa/lowgraphics.git`
+2.  `cd lowgraphics`
+3.  `run.bat`
