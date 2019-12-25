@@ -14,6 +14,13 @@ int Color::parse_color(int r, int g, int b)
 
 int Color::parse_color(std::string s)
 {
+    if (s == "white") s = "0xFFFFFFFF";
+    else if (s == "black") s = "0xFF000000";
+    else if (s == "red") s = "0xFFFF0000";
+    else if (s == "green") s = "0xFF00FF00";
+    else if (s == "blue") s = "0xFF0000FF";
+    else if (s == "yellow") s = "0xFFFFFF00";
+    else if (s == "cyan") s = "0xFF00FFFF";
     return std::stoul(s, nullptr, 16);
 }
 
