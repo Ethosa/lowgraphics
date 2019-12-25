@@ -14,8 +14,7 @@ int main(int argc, char const *argv[])
     img.rect(7, 7, 55, 55, 0x757777dd);
     img.circle(128, 128, 32, 0xFFFFFFFF);
 
-    int clr[4] = {200, 200, 200, 128};
-    img.line(128, 64, 64, 128, Color::parse_color(clr));
+    img.line(128, 64, 64, 128, Color::parse_color("yellow"));
 
     img.save("file.bmp", 0);
     std::cout << clock() - now << " times." << std::endl;
