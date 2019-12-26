@@ -12,6 +12,8 @@ public:
     Image(int width, int height);
     Image();
     void circle(int x, int y, int radius, int color);
+    void fill_circle(int x, int y, int radius, int color, int fill_color);
+    void fill_circle(int x, int y, int radius, int color);
     int get_at(int x, int y);
     void fill(int color);
     void fill();

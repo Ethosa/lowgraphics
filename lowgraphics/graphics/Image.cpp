@@ -87,6 +87,37 @@ void Image::circle(int x, int y, int radius, int color)
     }
 }
 
+void Image::fill_circle(int x, int y, int radius, int color, int fill_color)
+/**
+ * Draws a circle according to the specified parameters
+ *
+ * params:
+ *     x {int} -- circle center
+ *     y {int} -- circle center
+ *     radius {int} -- circle radius
+ *     color {int} -- fill borders color
+ *     fill_color {int} -- fill color
+ */
+{
+    circle(x, y, --radius, color);
+    while (--radius)
+        circle(x, y, radius, fill_color);
+}
+
+void Image::fill_circle(int x, int y, int radius, int color)
+/**
+ * Draws a circle according to the specified parameters
+ *
+ * params:
+ *     x {int} -- circle center
+ *     y {int} -- circle center
+ *     radius {int} -- circle radius
+ *     color {int} -- fill color
+ */
+{
+    fill_circle(x, y, radius, color, color);
+}
+
 int Image::get_at(int x, int y)
 /**
  * Returns color from the specified position
