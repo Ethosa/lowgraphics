@@ -14,9 +14,16 @@ int main(int argc, char const *argv[])
     img.rect(7, 7, 55, 55, 0x757777dd);
     img.circle(128, 128, 32, 0xFFFFFFFF);
 
-    img.line(128, 64, 64, 128, Color::parse_color("yellow"));
+    img.line(128, 64, 64, 128, Color::parse_color("OlIvE"));
+    img.circle(64, 64, 32, Color::parse_color("aquamarine"));
 
-    img.save("file.bmp", 0);
+    img.save("file.png", 0);
     std::cout << clock() - now << " times." << std::endl;
+    auto rgba = Color::to_rgba(0xFF77dd77);
+    std::cout << rgba.r << std::endl;
+    std::cout << rgba.g << std::endl;
+    std::cout << rgba.b << std::endl;
+    std::cout << rgba.a << std::endl;
+    std::cout << Color::parse_color(rgba) << std::endl;
     return 0;
 }
