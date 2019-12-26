@@ -1,4 +1,5 @@
 // author: Ethosa
+#include "RGBA.h"
 #include <iostream>
 #include <locale>
 #include <map>
@@ -12,4 +13,6 @@ public:
     static int parse_color(int r, int g, int b);
     static int parse_color(std::string s);
     static int parse_color(int* rgba);
+    static int parse_color(RGBA rgba);
+    static RGBA to_rgba(int color);
 };

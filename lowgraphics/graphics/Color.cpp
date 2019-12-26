@@ -63,6 +63,37 @@ int Color::parse_color(int* rgba)
     }
 }
 
+int Color::parse_color(RGBA rgba)
+/**
+ * Converts RGBA color to number
+ *
+ * params:
+ *     rgba {RGBA} -- rgba struct for parse color
+ */
+{
+    return (rgba.a<<24) | (rgba.r<<16) | (rgba.g<<8) | rgba.b;
+}
+
+RGBA Color::to_rgba(int color)
+/**
+ * Converts color to RGBA structure
+ *
+ * params:
+ *     color {int} -- color to convert
+ */
+{
+    RGBA rgba;
+    rgba.b = color & 255;
+    rgba.g = (color >> 8) & 255;
+    rgba.r = (color >> 16) & 255;
+    rgba.a = (color >> 24) & 255;
+    rgba.color[0] = rgba.r;
+    rgba.color[1] = rgba.g;
+    rgba.color[2] = rgba.b;
+    rgba.color[3] = rgba.a;
+    return rgba;
+}
+
 Color::_colors_map Color::colors_map = {
     {"aliceblue", 0xfff0f8ff},
     {"antiquewhite", 0xfffaebd7},
