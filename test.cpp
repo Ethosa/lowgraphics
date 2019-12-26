@@ -14,8 +14,9 @@ int main(int argc, char const *argv[])
     img.rect(7, 7, 55, 55, 0x757777dd);
     img.circle(128, 128, 32, 0xFFFFFFFF);
 
-    img.line(128, 64, 64, 128, Color::parse_color("OlIvE"));
-    img.circle(64, 64, 32, Color::parse_color("aquamarine"));
+    img.line(128, 64, 64, 128, Color::parse("OlIvE"));
+    img.circle(64, 64, 32, Color::parse("aquamarine"));
+    img.fill_circle(128, 32, 32, Color::parse("deepskyblue"));
 
     img.save("file.png", 0);
     std::cout << clock() - now << " times." << std::endl;
@@ -24,6 +25,6 @@ int main(int argc, char const *argv[])
     std::cout << rgba.g << std::endl;
     std::cout << rgba.b << std::endl;
     std::cout << rgba.a << std::endl;
-    std::cout << Color::parse_color(rgba) << std::endl;
+    std::cout << Color::parse(rgba) << std::endl;
     return 0;
 }
