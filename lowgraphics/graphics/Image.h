@@ -19,6 +19,8 @@ public:
     void fill();
     void line(int x1, int y1, int x2, int y2, int color);
     void rect(int x, int y, int width, int height, int color);
+    void fill_rect(int x, int y, int width, int height, int color, int fill_color);
+    void fill_rect(int x, int y, int width, int height, int color);
     void set_at(int x, int y, int color);
     void save(std::string file, int mode);
 private:

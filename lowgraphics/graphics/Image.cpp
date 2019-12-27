@@ -176,6 +176,20 @@ void Image::line(int x1, int y1, int x2, int y2, int color)
 }
 
 void Image::rect(int x, int y, int width, int height, int color)
+{
+    for (int i = x; i < width+x; ++i)
+    {
+        self[i][y] = calc_alpha(self[i][y], color);
+        self[i][y+height] = calc_alpha(self[i][y+height], color);
+    }
+    for (int i = y; i < height+y; ++i)
+    {
+        self[x][i] = calc_alpha(self[x][i], color);
+        self[x+width][i] = calc_alpha(self[x+width][i], color);
+    }
+}
+
+void Image::fill_rect(int x, int y, int width, int height, int color, int fill_color)
 /**
  * Draws a rectangle in the specified area.
  *
@@ -185,15 +199,23 @@ void Image::rect(int x, int y, int width, int height, int color)
  *     width {int} -- rectangle width
  *     height {int} -- rectangle height
  *     color {int} -- fill color
+ *     fill_color {int} -- fill color
  */
 {
     for (int i = 0; i < width; ++i)
     {
         for (int j = 0; j < height; ++j)
         {
-            self[x+i][y+j] = calc_alpha(self[x+i][y+j], color);
+            self[x+i][y+j] = calc_alpha(self[x+i][y+j], fill_color);
         }
     }
+    if (color != fill_color)
+        rect(x, y, width, height, color);
+}
+
+void Image::fill_rect(int x, int y, int width, int height, int color)
+{
+    fill_rect(x, y, width, height, color, color);
 }
 
 void Image::set_at(int x, int y, int color)
