@@ -12,6 +12,7 @@ int main(int argc, char const *argv[])
 
     img.line(0, 0, 256, 256, 0x99dd7777);
     img.rect(7, 7, 55, 55, 0x757777dd);
+    img.fill_rect(33, 33, 77, 77, Color::parse("black"), 0x757777dd);
     img.circle(128, 128, 32, 0xFFFFFFFF);
 
     img.line(128, 64, 64, 128, Color::parse("OlIvE"));
