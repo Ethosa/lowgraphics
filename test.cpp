@@ -6,26 +6,14 @@
 int main(int argc, char const *argv[])
 {
     int now = clock();
-    Image img = Image(256, 256, 0xFFFFFFFF);
-    img.fill(0xFF212121);
-    for (int i=0; i<256; ++i) img.set_at(i, 10, 0xFF77dd77);
+    Image img = Image(512, 512, 0xFFFFFFFF);
 
-    img.line(0, 0, 256, 256, 0x99dd7777);
-    img.rect(7, 7, 55, 55, 0x757777dd);
-    img.fill_rect(33, 33, 77, 77, Color::parse("black"), 0x757777dd);
-    img.circle(128, 128, 32, 0xFFFFFFFF);
-
-    img.line(128, 64, 64, 128, Color::parse("OlIvE"));
-    img.circle(64, 64, 32, Color::parse("aquamarine"));
-    img.fill_circle(128, 32, 32, Color::parse("deepskyblue"));
+    // img.bezier(25, 25, 128, 64, 64, 128, 0xFF212121);
+    // img.bezier(64, 128, 25, 256, 256, 25, 0xFF212121);
+    img.bezier(25, 25, 256, 25, 25, 256, 0xFF212121);
+    img.fill_rect(128, 128, 64, 64, 0x507777dd);
 
     img.save("file.png", 0);
     std::cout << clock() - now << " times." << std::endl;
-    auto rgba = Color::to_rgba(0xFF77dd77);
-    std::cout << rgba.r << std::endl;
-    std::cout << rgba.g << std::endl;
-    std::cout << rgba.b << std::endl;
-    std::cout << rgba.a << std::endl;
-    std::cout << Color::parse(rgba) << std::endl;
     return 0;
 }
