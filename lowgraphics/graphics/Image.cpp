@@ -34,6 +34,7 @@ Image::Image(int width, int height, int color)
     }
 }
 
+
 Image::Image(int width, int height)
 /**
  * creates an image object for further work with it
@@ -46,10 +47,42 @@ Image::Image(int width, int height)
     Image(width, height, 0xFFFFFFFF);
 }
 
+
 Image::Image()
 {
     Image(256, 256, 0xFFFFFFFF);
 }
+
+
+int calc_pt(int a , int b , float perc)
+{
+    int d = b - a;
+    return std::ceil(a + (d * perc));
+}
+
+
+void Image::bezier(int x1, int y1, int x2, int y2,
+                   int x3, int y3, int color)
+{
+    for(float i = 1.00; i > 0.00; i -= 0.001)
+    {
+        int xx = calc_pt(x1, x2, i);
+        int yy = calc_pt(y1, y2, i);
+        int xx1 = calc_pt(x2, x3, i);
+        int yy1 = calc_pt(y2, y3, i);
+
+        int x = calc_pt(xx, xx1, i);
+        int y = calc_pt(yy, yy1, i);
+
+        /* lines drawing */
+        // impose(xx, yy, color);
+        // impose(xx1, yy1, color);
+
+        // curve drawing
+        impose(x, y, color);
+    }
+}
+
 
 void Image::circle(int x, int y, int radius, int color)
 /**
@@ -83,9 +116,10 @@ void Image::circle(int x, int y, int radius, int color)
     {
         int x_end = positions[i][0] > 0 ? positions[i][0] : positions[i][0]*-2;
         int y_end = positions[i][1] > 0 ? positions[i][1] : positions[i][1]*-2;
-        self[x_end][y_end] = calc_alpha(self[x_end][y_end], color);
+        impose(x_end, y_end, color);
     }
 }
+
 
 void Image::fill_circle(int x, int y, int radius, int color, int fill_color)
 /**
@@ -104,6 +138,7 @@ void Image::fill_circle(int x, int y, int radius, int color, int fill_color)
         circle(x, y, radius, fill_color);
 }
 
+
 void Image::fill_circle(int x, int y, int radius, int color)
 /**
  * Draws a circle according to the specified parameters
@@ -118,6 +153,7 @@ void Image::fill_circle(int x, int y, int radius, int color)
     fill_circle(x, y, radius, color, color);
 }
 
+
 int Image::get_at(int x, int y)
 /**
  * Returns color from the specified position
@@ -129,6 +165,7 @@ int Image::get_at(int x, int y)
 {
     return self[x][y];
 }
+
 
 void Image::fill(int color)
 /**
@@ -142,15 +179,22 @@ void Image::fill(int color)
     {
         for (int y = 0; y < h; ++y)
         {
-            self[x][y] = color;
+            set_at(x, y, color);
         }
     }
 }
+
 
 void Image::fill()
 {
     fill(0xFFFFFFFF);
 }
+
+
+void Image::impose(int x, int y, int color) {
+    self[x][y] = calc_alpha(self[x][y], color);
+}
+
 
 void Image::line(int x1, int y1, int x2, int y2, int color)
 /**
@@ -171,23 +215,36 @@ void Image::line(int x1, int y1, int x2, int y2, int color)
     {
         int x = x1 + (int)(i * x_spacing);
         int y = y1 + (int)(i * y_spacing);
-        self[x][y] = calc_alpha(self[x][y], color);
+        impose(x, y, color);
     }
 }
 
+
 void Image::rect(int x, int y, int width, int height, int color)
+/**
+ * Draws a rectangle without filling it with color
+ *
+ * params:
+ *     x {int} -- start position
+ *     y {int} -- start position
+ *     width {int} -- rectangle width
+ *     height {int} -- rectangle height
+ *     color {int} -- fill color
+ */
 {
-    for (int i = x; i < width+x; ++i)
+    int maxw = width+x, maxh = height+y;
+    for (int i = x; i < maxw; ++i)
     {
-        self[i][y] = calc_alpha(self[i][y], color);
-        self[i][y+height] = calc_alpha(self[i][y+height], color);
+        impose(i+1, y, color);
+        impose(i, y+height, color);
     }
-    for (int i = y; i < height+y; ++i)
+    for (int i = y; i < maxh; ++i)
     {
-        self[x][i] = calc_alpha(self[x][i], color);
-        self[x+width][i] = calc_alpha(self[x+width][i], color);
+        impose(x, i, color);
+        impose(x+width, i+1, color);
     }
 }
+
 
 void Image::fill_rect(int x, int y, int width, int height, int color, int fill_color)
 /**
@@ -206,17 +263,19 @@ void Image::fill_rect(int x, int y, int width, int height, int color, int fill_c
     {
         for (int j = 0; j < height; ++j)
         {
-            self[x+i][y+j] = calc_alpha(self[x+i][y+j], fill_color);
+            impose(x+i, y+j, color);
         }
     }
     if (color != fill_color)
         rect(x, y, width, height, color);
 }
 
+
 void Image::fill_rect(int x, int y, int width, int height, int color)
 {
     fill_rect(x, y, width, height, color, color);
 }
+
 
 void Image::set_at(int x, int y, int color)
 /**
@@ -230,6 +289,7 @@ void Image::set_at(int x, int y, int color)
 {
     self[x][y] = color;
 }
+
 
 void Image::save(std::string file, int mode)
 /**
@@ -292,6 +352,19 @@ void Image::save(std::string file, int mode)
     }
 }
 
+
+void Image::paste(Image other, int x, int y)
+{
+    for (int i = 0; i < other.w-1; ++i)
+    {
+        for (int j = 0; j < other.h-1; ++j)
+        {
+            impose(x+i, y+j, other.self[i][j]);
+        }
+    }
+}
+
+
 int Image::calc_alpha(int dst, int src)
 /**
  * calcAlpha method is used to overlay one pixel on another
@@ -311,12 +384,12 @@ int Image::calc_alpha(int dst, int src)
     src_g = (src >> 8) & 255;
     src_r = (src >> 16) & 255;
     src_a = (src >> 24) & 255;
-    double a = (double)src_a * (1.0/255.0);
+    float a = (float)src_a * (1.0/255.0);
     int r, g, b;
 
-    r = (double)dst_r*(1.0-a) + (double)src_r*a;
-    g = (double)dst_g*(1.0-a) + (double)src_g*a;
-    b = (double)dst_b*(1.0-a) + (double)src_b*a;
+    r = (float)dst_r*(1.0-a) + (float)src_r*a;
+    g = (float)dst_g*(1.0-a) + (float)src_g*a;
+    b = (float)dst_b*(1.0-a) + (float)src_b*a;
 
-    return ((int)(a*255)<<24) | (r<<16) | (g<<8) | b;
+    return (255<<24) | (r<<16) | (g<<8) | b;
 }
